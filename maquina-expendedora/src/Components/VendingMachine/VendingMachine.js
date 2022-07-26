@@ -51,7 +51,9 @@ export const VendingMachine = () => {
             <PaymentDetails
               totalOrderCost={totalOrderCost}
               totalChange={totalChange}
+              setTotalChange={setTotalChange}
               totalMoneyForPay={totalMoneyForPay}
+              setTotalMoneyForPay={setTotalMoneyForPay}
               clientMoney={clientMoney}
               setClientMoney={setClientMoney}
             >

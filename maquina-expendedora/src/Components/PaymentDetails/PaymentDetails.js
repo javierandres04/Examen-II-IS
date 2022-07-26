@@ -1,9 +1,13 @@
 import './PaymentDetails.css'
 import { MoneyFormatter } from '../../Utils/MoneyFormatter';
 import { Input } from '../Input/Input';
+import { useEffect } from 'react';
 import Swal from 'sweetalert2';
+import { calculateTotalChange } from '../../Utils/calculateChange';
+import { calculateTotalMoneyForPay } from '../../Utils/calculateTotalMoney';
 
-export const PaymentDetails = ({ totalOrderCost, totalChange, totalMoneyForPay, clientMoney, setClientMoney }) => {
+export const PaymentDetails = ({ totalOrderCost, totalChange, setTotalChange,
+  totalMoneyForPay, setTotalMoneyForPay, clientMoney, setClientMoney }) => {
   const handleAddMoneyButton = (element) => {
     if (totalOrderCost > 0) {
       if (totalMoneyForPay < totalOrderCost) {
@@ -35,6 +39,14 @@ export const PaymentDetails = ({ totalOrderCost, totalChange, totalMoneyForPay, 
       setClientMoney(newClientMoney);
     }
   }
+
+  useEffect(() => {
+    setTotalMoneyForPay(calculateTotalMoneyForPay(clientMoney));
+  }, [clientMoney]);
+
+  useEffect(() => {
+    setTotalChange(calculateTotalChange(totalOrderCost, totalMoneyForPay));
+  }, [totalOrderCost, totalMoneyForPay]);
 
   return (
     <div>
