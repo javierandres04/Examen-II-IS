@@ -4,12 +4,18 @@ import { Products } from '../Products/Products';
 import { useState } from 'react';
 import { machineStock } from '../../data';
 import { OrderList } from '../OrderList/OrderList';
+import { initialClientMoney } from '../../data';
+import { PaymentDetails } from '../PaymentDetails/PaymentDetails';
 
 
 export const VendingMachine = () => {
   const [stock, setStock] = useState(machineStock);
   const [order, setOrder] = useState([]);
   const [totalOrderCost, setTotalOrderCost] = useState(0);
+  const [totalChange, setTotalChange] = useState(0);
+  const [totalMoneyForPay, setTotalMoneyForPay] = useState(0);
+  const [clientMoney, setClientMoney] = useState(initialClientMoney.slice(0));
+
 
 
   return (
@@ -40,6 +46,16 @@ export const VendingMachine = () => {
               <h3> Total a pagar: </h3>
               <label> {MoneyFormatter.format(totalOrderCost)}</label>
             </div>
+          </div>
+          <div>
+            <PaymentDetails
+              totalOrderCost={totalOrderCost}
+              totalChange={totalChange}
+              totalMoneyForPay={totalMoneyForPay}
+              clientMoney={clientMoney}
+              setClientMoney={setClientMoney}
+            >
+            </PaymentDetails>
           </div>
         </div>
       </div>

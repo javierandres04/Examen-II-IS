@@ -1,0 +1,36 @@
+.total-cost-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.money-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
+}
+
+.money-label {
+  width: 150px;
+  text-align: left;
+}
+
+.cost-items {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  gap: 10px;
+  width: 180px;
+}
+
+.money-title {
+  margin-bottom: 20px;
+}
+
+.client-money-label {
+  width: 70px;
+}
