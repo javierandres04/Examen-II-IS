@@ -2,9 +2,15 @@ import './OrderList.css'
 import { MoneyFormatter } from '../../Utils/MoneyFormatter';
 import Swal from 'sweetalert2';
 import { Input } from '../Input/Input';
+import { useEffect } from 'react';
+import { calculateTotalOrderCost } from '../../Utils/calculateTotalMoney';
+
+export const OrderList = ({ order, setOrder, machineStock, setTotalOrderCost }) => {
 
 
-export const OrderList = ({ order, setOrder, machineStock }) => {
+  useEffect(() => {
+    setTotalOrderCost(calculateTotalOrderCost(order));
+  }, [order]);
 
   const handleAddButton = (element) => {
     if (element.quantity === machineStock[element.id].quantity) {
