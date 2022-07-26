@@ -1,9 +1,34 @@
 import './Products.css'
 import { MoneyFormatter } from '../../Utils/MoneyFormatter';
+import Swal from 'sweetalert2';
 
-export const Products = ({ machineStock }) => {
+export const Products = ({ order, setOrder, machineStock }) => {
 
-  const handleProductClick = (element) => {
+  const handleProductClick = (product) => {
+    const found = order.find(element => product.id === element.id);
+
+    if (found === undefined) {
+      const orderProduct = {
+        id: product.id,
+        type: product.type,
+        price: product.price,
+        quantity: 1
+      }
+      setOrder([...order, orderProduct]);
+    } else {
+      if (found.quantity === product.quantity) {
+        Swal.fire({
+          title: 'Oops!',
+          text: 'No existe más stock de este producto',
+          icon: 'warning',
+          confirmButtonColor: '#27742D',
+        });
+      } else {
+        found.quantity++;
+        const newOrder = order.slice(0);
+        setOrder(newOrder);
+      }
+    }
   }
 
   return (
