@@ -8,6 +8,7 @@ import { initialClientMoney } from '../../data';
 import { PaymentDetails } from '../PaymentDetails/PaymentDetails';
 import { machineChange } from '../../data';
 import { calculateTotalStock } from '../../Utils/calculateTotalStocks';
+import { PayButton } from '../PayButton/PayButton';
 import Swal from 'sweetalert2';
 
 
@@ -19,6 +20,7 @@ export const VendingMachine = () => {
   const [totalMoneyForPay, setTotalMoneyForPay] = useState(0);
   const [clientMoney, setClientMoney] = useState(initialClientMoney.slice(0));
   const [coinsStock, setCoinsStock] = useState(machineChange);
+  const [canPay, setCanPay] = useState(false);
 
   useEffect(() => {
     const totalCoinsStock = calculateTotalStock(coinsStock);
@@ -76,6 +78,11 @@ export const VendingMachine = () => {
               setClientMoney={setClientMoney}
             >
             </PaymentDetails>
+            <PayButton
+              totalOrderCost={totalOrderCost}
+              totalMoneyForPay={totalMoneyForPay}
+              clientCanPay={setCanPay}
+            ></PayButton>
           </div>
         </div>
       </div>
