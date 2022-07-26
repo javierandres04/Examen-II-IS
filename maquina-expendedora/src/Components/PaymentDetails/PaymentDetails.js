@@ -29,6 +29,11 @@ export const PaymentDetails = ({ totalOrderCost, totalChange, totalMoneyForPay, 
   }
 
   const handleSubstractMoneyButton = (element) => {
+    if (element.quantity > 0) {
+      element.quantity--;
+      let newClientMoney = clientMoney.slice(0);
+      setClientMoney(newClientMoney);
+    }
   }
 
   return (
