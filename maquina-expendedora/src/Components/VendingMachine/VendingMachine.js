@@ -17,6 +17,8 @@ export const VendingMachine = () => {
         <div className='principal-menu'>
           <h2 className='title'> Productos disponibles </h2>
           <Products
+            order={order}
+            setOrder={setOrder}
             machineStock={stock}
           ></Products>
         </div>
