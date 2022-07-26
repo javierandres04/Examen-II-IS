@@ -9,3 +9,15 @@ export const calculateTotalOrderCost = (order) => {
   }
   return totalCost;
 };
+
+export const calculateTotalMoneyForPay = (moneyforPay) => {
+  let total = 0;
+  if (moneyforPay !== undefined) {
+    if (moneyforPay.length > 0) {
+      moneyforPay.forEach(element => {
+        total += element.type * element.quantity;
+      });
+    }
+  }
+  return total;
+};
