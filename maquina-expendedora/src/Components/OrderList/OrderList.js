@@ -10,6 +10,14 @@ export const OrderList = ({ order, setOrder, machineStock }) => {
   }
 
   const handleSubstractButton = (element) => {
+    if (element.quantity > 1) {
+      element.quantity--;
+      let newOrder = order.slice(0);
+      setOrder(newOrder);
+    } else {
+      const newOrder = order.filter((item) => item.id !== element.id);
+      setOrder(newOrder);
+    }
   }
 
   return order.length <= 0 ? <div className='order-list'></div> : (
