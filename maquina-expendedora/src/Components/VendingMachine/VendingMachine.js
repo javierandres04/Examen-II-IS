@@ -8,6 +8,10 @@ import { initialClientMoney } from '../../data';
 import { PaymentDetails } from '../PaymentDetails/PaymentDetails';
 import { machineChange } from '../../data';
 import { calculateTotalStock } from '../../Utils/calculateTotalStocks';
+import { PayButton } from '../PayButton/PayButton';
+import { itemizedChangeToString } from '../../Utils/itemizedChangeToString';
+import { updateMachineStock, savePayedMoney, updateClientMoney, returnPayedMoney, updateCoinsStock } from '../../Utils/machineUpdates';
+import { calculateItemizedChange } from '../../Utils/calculateChange';
 import Swal from 'sweetalert2';
 
 
@@ -19,6 +23,58 @@ export const VendingMachine = () => {
   const [totalMoneyForPay, setTotalMoneyForPay] = useState(0);
   const [clientMoney, setClientMoney] = useState(initialClientMoney.slice(0));
   const [coinsStock, setCoinsStock] = useState(machineChange);
+  const [canPay, setCanPay] = useState(false);
+
+
+  const processPayment = (itemizedChange) => {
+    Swal.fire({
+      title: 'Listo!',
+      html: `
+      <pre> 
+      Su orden ha sido pagada con éxito.
+      Su vuelto es de: ${MoneyFormatter.format(totalChange)}</pre>
+      <pre>${itemizedChangeToString(itemizedChange)}</pre>
+      `,
+      icon: 'success',
+      confirmButtonColor: '#27742D',
+      allowEnterKey: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        updateMachineStock(order, stock, setStock);
+        setOrder([]);
+        updateClientMoney(clientMoney, setClientMoney);
+        updateCoinsStock(itemizedChange, coinsStock, setCoinsStock)
+        setCanPay(false);
+      }
+    });
+  }
+
+  const declinePayment = () => {
+    Swal.fire({
+      title: 'Error!',
+      text: 'La máquina no tiene suficientes monedas para darle vuelto',
+      icon: 'error',
+      confirmButtonColor: 'red',
+    });
+    returnPayedMoney(clientMoney, coinsStock, setCoinsStock);
+    setCanPay(false);
+  }
+
+  const tryPayment = () => {
+    savePayedMoney(clientMoney, coinsStock, setCoinsStock);
+    if (totalChange > 0) {
+      const itemizedChange = calculateItemizedChange(totalChange, coinsStock);
+      if (itemizedChange.length !== 0) {
+        processPayment(itemizedChange);
+      } else {
+        declinePayment();
+      }
+    } else {
+      processPayment();
+    }
+  }
 
   useEffect(() => {
     const totalCoinsStock = calculateTotalStock(coinsStock);
@@ -35,6 +91,9 @@ export const VendingMachine = () => {
     }
   }, [coinsStock]);
 
+  useEffect(() => {
+    (canPay === true) && tryPayment();
+  }, [canPay]);
 
   return (
     <>
@@ -76,6 +135,11 @@ export const VendingMachine = () => {
               setClientMoney={setClientMoney}
             >
             </PaymentDetails>
+            <PayButton
+              totalOrderCost={totalOrderCost}
+              totalMoneyForPay={totalMoneyForPay}
+              clientCanPay={setCanPay}
+            ></PayButton>
           </div>
         </div>
       </div>
