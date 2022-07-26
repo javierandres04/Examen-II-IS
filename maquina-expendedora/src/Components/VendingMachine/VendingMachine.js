@@ -1,11 +1,14 @@
 import './VendingMachine.css';
 import { MoneyFormatter } from '../../Utils/MoneyFormatter';
 import { Products } from '../Products/Products';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { machineStock } from '../../data';
 import { OrderList } from '../OrderList/OrderList';
 import { initialClientMoney } from '../../data';
 import { PaymentDetails } from '../PaymentDetails/PaymentDetails';
+import { machineChange } from '../../data';
+import { calculateTotalStock } from '../../Utils/calculateTotalStocks';
+import Swal from 'sweetalert2';
 
 
 export const VendingMachine = () => {
@@ -15,7 +18,22 @@ export const VendingMachine = () => {
   const [totalChange, setTotalChange] = useState(0);
   const [totalMoneyForPay, setTotalMoneyForPay] = useState(0);
   const [clientMoney, setClientMoney] = useState(initialClientMoney.slice(0));
+  const [coinsStock, setCoinsStock] = useState(machineChange);
 
+  useEffect(() => {
+    const totalCoinsStock = calculateTotalStock(coinsStock);
+    if (totalCoinsStock === 0) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Máquina fuera de servicio por falta de monedas para vuelto',
+        icon: 'error',
+        showConfirmButton: false,
+        allowEnterKey: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      });
+    }
+  }, [coinsStock]);
 
 
   return (
