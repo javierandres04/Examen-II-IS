@@ -1,9 +1,31 @@
 import './PaymentDetails.css'
 import { MoneyFormatter } from '../../Utils/MoneyFormatter';
 import { Input } from '../Input/Input';
+import Swal from 'sweetalert2';
 
 export const PaymentDetails = ({ totalOrderCost, totalChange, totalMoneyForPay, clientMoney, setClientMoney }) => {
   const handleAddMoneyButton = (element) => {
+    if (totalOrderCost > 0) {
+      if (totalMoneyForPay < totalOrderCost) {
+        element.quantity++;
+        let newClientMoney = clientMoney.slice(0);
+        setClientMoney(newClientMoney);
+      } else {
+        Swal.fire({
+          title: 'Oops!',
+          text: 'Ya ingresó suficiente dinero para pagar',
+          icon: 'warning',
+          confirmButtonColor: '#27742D',
+        });
+      }
+    } else {
+      Swal.fire({
+        title: 'Oops!',
+        text: 'Su orden está vacía, no puede ingresar dinero',
+        icon: 'warning',
+        confirmButtonColor: '#27742D',
+      });
+    }
   }
 
   const handleSubstractMoneyButton = (element) => {
