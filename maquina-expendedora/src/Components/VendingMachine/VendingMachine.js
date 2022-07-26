@@ -18,6 +18,13 @@ export const VendingMachine = () => {
             machineStock={stock}
           ></Products>
         </div>
+        <div className='my-order'>
+          <div>
+            <h3 className='order-title'> Mi orden </h3>
+
+            <hr className='line'></hr>
+          </div>
+        </div>
       </div>
     </>
   );
