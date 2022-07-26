@@ -3,6 +3,9 @@ import { MoneyFormatter } from '../../Utils/MoneyFormatter';
 
 export const Products = ({ machineStock }) => {
 
+  const handleProductClick = (element) => {
+  }
+
   return (
     <div className='product-grid'>
       {machineStock.map((element) => (
