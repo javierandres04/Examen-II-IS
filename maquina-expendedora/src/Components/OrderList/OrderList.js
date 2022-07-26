@@ -7,6 +7,18 @@ import { Input } from '../Input/Input';
 export const OrderList = ({ order, setOrder, machineStock }) => {
 
   const handleAddButton = (element) => {
+    if (element.quantity === machineStock[element.id].quantity) {
+      Swal.fire({
+        title: 'Oops!',
+        text: 'No existe más stock de este producto',
+        icon: 'warning',
+        confirmButtonColor: '#27742D',
+      });
+    } else {
+      element.quantity++;
+      let newOrder = order.slice(0);
+      setOrder(newOrder);
+    }
   }
 
   const handleSubstractButton = (element) => {
