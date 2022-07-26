@@ -1,4 +1,5 @@
 import './VendingMachine.css';
+import { MoneyFormatter } from '../../Utils/MoneyFormatter';
 import { Products } from '../Products/Products';
 import { useState } from 'react';
 import { machineStock } from '../../data';
@@ -8,6 +9,9 @@ import { OrderList } from '../OrderList/OrderList';
 export const VendingMachine = () => {
   const [stock, setStock] = useState(machineStock);
   const [order, setOrder] = useState([]);
+  const [totalOrderCost, setTotalOrderCost] = useState(0);
+
+
   return (
     <>
       <div className='header'>
@@ -28,9 +32,14 @@ export const VendingMachine = () => {
             <OrderList
               order={order}
               setOrder={setOrder}
+              setTotalOrderCost={setTotalOrderCost}
               machineStock={machineStock}
             ></OrderList>
             <hr className='line'></hr>
+            <div className='order-total'>
+              <h3> Total a pagar: </h3>
+              <label> {MoneyFormatter.format(totalOrderCost)}</label>
+            </div>
           </div>
         </div>
       </div>
