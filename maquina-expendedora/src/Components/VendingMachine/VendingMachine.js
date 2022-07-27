@@ -37,18 +37,18 @@ export const VendingMachine = () => {
       `,
       icon: 'success',
       confirmButtonColor: '#27742D',
-      allowEnterKey: false,
+      allowEnterKey: true,
       allowOutsideClick: false,
       allowEscapeKey: false
     }).then((result) => {
       if (result.isConfirmed) {
-        updateMachineStock(order, stock, setStock);
-        setOrder([]);
-        updateClientMoney(clientMoney, setClientMoney);
-        updateCoinsStock(itemizedChange, coinsStock, setCoinsStock)
-        setCanPay(false);
+        updateCoinsStock(itemizedChange, coinsStock, setCoinsStock);
       }
     });
+    updateMachineStock(order, stock, setStock);
+    setOrder([]);
+    updateClientMoney(clientMoney, setClientMoney);
+    setCanPay(false);
   }
 
   const declinePayment = () => {
